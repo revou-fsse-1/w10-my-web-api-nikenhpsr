@@ -19,7 +19,6 @@ html{
 }
 
 body{
-    background: #f7f5ff;
     display: flex;
     flex-flow: column;
     height: 100vh;
