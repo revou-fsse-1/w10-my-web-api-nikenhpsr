@@ -97,5 +97,5 @@ addPostForm.addEventListener("submit", (e) => {
     });
     //reset input field to empty
     titleValue.value ='';
-    bodyValue.value = '';
+    bodyValue.value ='';
 });
