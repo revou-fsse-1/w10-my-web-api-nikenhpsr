@@ -1,71 +1,63 @@
 const express = require("express");
 const router = express.Router();
 
-//post model
-const Posts = require("../../models/post");
+//posts model
+const Posts = require("../../models/db");
 
-//@routes GET API/post
-//@desc GET ALL post
-router.get("/", async (req, res) => {
-  try {
-    const post = await Posts.find();
-    if (!post) throw Error("No posts found");
-    res.status(200).json(post);
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-});
-
-//@routes GET API/post
-//@desc GET specific post
-router.get("/:id", async (req, res) => {
-  try {
-    const post = await Posts.findById(req.params.id);
-    if (!post) throw Error("No posts found");
-    res.status(200).json(post);
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-});
-
-//@routes POST API/post
-//@desc Create a post
-
+//@routes POST api/Posts
 router.post("/", async (req, res) => {
-  /*res.send('Let\'s create a post');*/
-  /*console.log(req.body);*/
   const newPost = new Posts(req.body);
   try {
     const post = await newPost.save();
-    if (!post) throw Error("Something went wrong while saving the post");
+    if(!post) throw Error('Something went wrong');
     res.status(200).json(post);
   } catch (err) {
-    res.status(400).json({ msg: err });
+    res.status(500).json({msg: err});
   }
 });
 
-//@routes DEL API/post
-//@desc DEL by id
+//@routes GET ALL api/Posts
+router.get("/", async (req, res) => {
+  try {
+    const post = await Posts.find();
+    if(!post) throw Error('No Items');
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({msg: err});
+  }
+});
+
+//@routes GET specific api/Posts
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    if(!post) throw Error('No Items');
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({msg: err});
+  }
+});
+
+//@routes DEL api/Posts by Id
 router.delete("/:id", async (req, res) => {
-  try {
-    const post = await Posts.findByIdAndDelete(req.params.id);
-    if (!post) throw Error("No ID found");
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-});
+    try {
+      const post = await Posts.findByIdAndDelete(req.params.id);
+      if(!post) throw Error('No Items');
+      res.status(200).json({success: true});
+    } catch (err) {
+      res.status(500).json({msg: err});
+    }
+  });
 
-//@routes UPDATE API/post
-//@desc UPDATE
+//@routes PATCH api/Posts by Id
 router.patch("/:id", async (req, res) => {
-  try {
-    const post = await Posts.findByIdAndUpdate(req.params.id, req.body);
-    if (!post) throw Error("Something when wrong while updating");
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(400).json({ msg: err });
-  }
-});
+    try {
+      const post = await Posts.findByIdAndUpdate(req.params.id, req.body);
+      if(!post) throw Error('No Items');
+      res.status(200).json({success: true});
+    } catch (err) {
+      res.status(500).json({msg: err});
+    }
+  });
 
-module.exports = router;
+module.exports = router

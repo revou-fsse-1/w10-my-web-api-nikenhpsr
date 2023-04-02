@@ -1,45 +1,76 @@
-const signUp = (e) => {
-  let fname = document.getElementById("fname").value,
-    lname = document.getElementById("lname").value,
-    email = document.getElementById("email").value,
-    pwd = document.getElementById("pwd").value;
+const url = "http://localhost:5000/api/posts";
 
-  let formData = JSON.parse(localStorage.getItem("formData")) || [];
+let fname = document.getElementById("fname").value,
+  lname = document.getElementById("lname").value,
+  email = document.getElementById("email").value,
+  pwd = document.getElementById("pwd").value;
+e.preventDefault();
+// save into API
+fetch(url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fname: String,
+    lname: String,
+    email: email,
+    pwd: password,
+  }),
+})
+  .then((response) => {
+    return response.json();
+  })
+  .then((users) => {
+    console.log(users);
+  });
 
-  let exist =
-    formData.length &&
-    JSON.parse(localStorage.getItem("formData")).some(
-      (data) =>
-        data.fname.toLowerCase() == fname.toLowerCase() &&
-        data.lname.toLowerCase() == lname.toLowerCase()
-    );
+//register user
+function register() {
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((users) => {
+      const sameEmail = users.find((e) => e.email === email);
+      if (!email) {
+        alert("Please enter your email address");
+        console.log(email);
+      } else if (!pwd) {
+        alert("Please enter your password");
+      } else if (sameEmail !== undefined) {
+        alert("Email already registered");
+      } else {
+        sendUserData();
+        alert("success!");
+        window.location.href = "index.html";
+      }
+    });
+}
 
-  if (!exist) {
-    formData.push({ fname, lname, email, pwd });
-    localStorage.setItem("formData", JSON.stringify(formData));
-    document.querySelector("form").reset();
-    document.getElementById("fname").focus();
-    alert("Account Created.\n\nPlease Sign In using the link below.");
-  } else {
-    alert("Ooopppssss... Duplicate found!!!\nYou have already signed up");
-  }
-  e.preventDefault();
-};
+//login
+function loginUser() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-function signIn(e) {
-  let email = document.getElementById("email").value,
-    pwd = document.getElementById("pwd").value;
-  let formData = JSON.parse(localStorage.getItem("formData")) || [];
-  let exist =
-    formData.length &&
-    JSON.parse(localStorage.getItem("formData")).some(
-      (data) =>
-        data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd
-    );
-  if (!exist) {
-    alert("Incorrect login credentials");
-  } else {
-    location.href = "./homepage.html";
-  }
-  e.preventDefault();
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((users) => {
+      const sameEmailPassword = users.find(
+        (e) => e.email === email && e.password === password
+      );
+      if (!email) {
+        alert("Please enter your email address");
+        console.log(email);
+      } else if (!pwd) {
+        alert("Please enter your password");
+      } else if (sameEmailPassword === undefined) {
+        alert("Please register your email and password first");
+      } else if (sameEmailPassword !== undefined) {
+        alert("success!");
+        window.location.href = "homepage.html";
+      }
+    });
 }

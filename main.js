@@ -1,14 +1,22 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  // Ganti domain ini
+  origin: "http://localhost:5000/api/posts",
+};
+
+app.use(cors(corsOptions));
+
+app.listen(80);
 
 const postsList = document.querySelector(".post-list");
 const addPostForm = document.querySelector(".add-post-form");
 const titleValue = document.getElementById("title-value");
 const bodyValue = document.getElementById("body-value");
 const btnSubmit = document.querySelector(".btn");
+const url = "http://localhost:5000/api/posts";
 let output = "";
 
 const renderPost = (posts) => {
@@ -27,8 +35,6 @@ const renderPost = (posts) => {
   });
   postsList.innerHTML = output;
 };
-
-const url = "http://localhost:5000/api/posts";
 
 // GET - READ posts
 // Method: GET
@@ -71,8 +77,9 @@ postsList.addEventListener("click", (e) => {
         titleValue: titleValue.value,
         bodyValue: bodyValue.value,
       }),
-    }).then((res) => res.json())
-    .then(() => location.reload());
+    })
+      .then((res) => res.json())
+      .then(() => location.reload());
   });
 });
 
@@ -95,7 +102,7 @@ addPostForm.addEventListener("submit", (e) => {
       dataArr.push(data);
       renderPost(dataArr);
     });
-    //reset input field to empty
-    titleValue.value ='';
-    bodyValue.value ='';
+  //reset input field to empty
+  titleValue.value = "";
+  bodyValue.value = "";
 });
