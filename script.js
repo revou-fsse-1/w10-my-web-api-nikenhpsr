@@ -1,33 +1,33 @@
-const url = "http://localhost:5000/api/posts";
+const url = "https://6427cafe46fd35eb7c45bead.mockapi.io/employee";
 
 let fname = document.getElementById("fname").value,
   lname = document.getElementById("lname").value,
   email = document.getElementById("email").value,
   pwd = document.getElementById("pwd").value;
-e.preventDefault();
-// save into API
-fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    fname: String,
-    lname: String,
-    email: email,
-    pwd: password,
-  }),
+
+//GET task
+fetch('https://6427cafe46fd35eb7c45bead.mockapi.io/employee/tasks', {
+  method: 'GET',
+  headers: {'content-type':'application/json'},
+}).then(res => {
+  if (res.ok) {
+      return res.json();
+  }
 })
-  .then((response) => {
-    return response.json();
-  })
-  .then((users) => {
-    console.log(users);
-  });
 
 //register user
 function register() {
-  fetch(url)
+  e.preventDefault;
+  fetch("https://6427cafe46fd35eb7c45bead.mockapi.io/employee/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      pwd: password,
+    }),
+  })
     .then((response) => {
       return response.json();
     })
@@ -51,9 +51,9 @@ function register() {
 //login
 function loginUser() {
   const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const password = document.getElementById("pwd").value;
 
-  fetch(url)
+  fetch('https://6427cafe46fd35eb7c45bead.mockapi.io/employee/tasks')
     .then((response) => {
       return response.json();
     })

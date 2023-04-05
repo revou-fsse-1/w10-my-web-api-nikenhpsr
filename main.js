@@ -1,30 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
-
-const corsOptions = {
-  // Ganti domain ini
-  origin: "http://localhost:5000/api/posts",
-};
-
-app.use(cors(corsOptions));
-
-app.listen(80);
-
 const postsList = document.querySelector(".post-list");
 const addPostForm = document.querySelector(".add-post-form");
 const titleValue = document.getElementById("title-value");
 const bodyValue = document.getElementById("body-value");
 const btnSubmit = document.querySelector(".btn");
-const url = "http://localhost:5000/api/posts";
+const url = "https://6427cafe46fd35eb7c45bead.mockapi.io/users";
 let output = "";
 
 const renderPost = (posts) => {
   posts.forEach((post) => {
     output += `<div class="card mt-4 col-md-6 bg-light">
-        <div class="card-body" data-id=${post._id}>
+        <div class="card-body" data-id=${post.id}>
           <h5 class="card-title">${post.title}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">${post.date}</h6>
           <p class="card-text">
             ${post.body}
           </p>
